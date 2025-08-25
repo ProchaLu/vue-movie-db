@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 type TvDetail = {
@@ -32,7 +32,9 @@ function getPosterUrl(path: string | null) {
 
 onMounted(async () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY
-  const res = await fetch(`https://api.themoviedb.org/3/tv/${route.params.id}?api_key=${apiKey}&language=de-DE`)
+  const res = await fetch(
+    `https://api.themoviedb.org/3/tv/${route.params.id}?api_key=${apiKey}&language=de-DE`,
+  )
   tv.value = await res.json()
 })
 </script>

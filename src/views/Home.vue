@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 type Movie = {
   id: number
@@ -31,7 +31,9 @@ function getPosterUrl(path: string | null) {
 
 onMounted(async () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY
-  const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=de-DE&page=1`)
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=de-DE&page=1`,
+  )
   const data = await res.json()
   movies.value = data.results.slice(0, 20)
 })
@@ -52,7 +54,7 @@ main {
   color: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 .movie-card img {

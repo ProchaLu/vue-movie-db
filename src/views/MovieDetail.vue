@@ -5,11 +5,14 @@
       <img :src="getPosterUrl(movie.poster_path)" alt="Poster" />
       <div class="info">
         <p><strong>Bewertung:</strong> {{ movie.vote_average }} / 10</p>
-        <p><strong>Genres:</strong> {{ movie.genres.map(g => g.name).join(', ') }}</p>
+        <p><strong>Genres:</strong> {{ movie.genres.map((g) => g.name).join(', ') }}</p>
         <p><strong>Laufzeit:</strong> {{ movie.runtime }} min</p>
         <p><strong>Release:</strong> {{ movie.release_date }}</p>
         <p><strong>Tagline:</strong> {{ movie.tagline }}</p>
-        <p><strong>Produktionsfirmen:</strong> {{ movie.production_companies.map(c => c.name).join(', ') }}</p>
+        <p>
+          <strong>Produktionsfirmen:</strong>
+          {{ movie.production_companies.map((c) => c.name).join(', ') }}
+        </p>
       </div>
     </div>
     <p>{{ movie.overview }}</p>
@@ -19,7 +22,8 @@
         <img v-if="actor.profile_path" :src="getActorImg(actor.profile_path)" :alt="actor.name" />
         <div v-else class="no-img">Kein Bild</div>
         <div>
-          <strong>{{ actor.name }}</strong><br />
+          <strong>{{ actor.name }}</strong
+          ><br />
           <span>{{ actor.character }}</span>
         </div>
       </div>
@@ -32,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 type Genre = { id: number; name: string }
@@ -69,9 +73,13 @@ function getActorImg(path: string) {
 
 onMounted(async () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY
-  const res = await fetch(`https://api.themoviedb.org/3/movie/${route.params.id}?api_key=${apiKey}&language=de-DE`)
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${route.params.id}?api_key=${apiKey}&language=de-DE`,
+  )
   movie.value = await res.json()
-  const creditsRes = await fetch(`https://api.themoviedb.org/3/movie/${route.params.id}/credits?api_key=${apiKey}&language=de-DE`)
+  const creditsRes = await fetch(
+    `https://api.themoviedb.org/3/movie/${route.params.id}/credits?api_key=${apiKey}&language=de-DE`,
+  )
   const credits = await creditsRes.json()
   cast.value = credits.cast.slice(0, 12)
 })
